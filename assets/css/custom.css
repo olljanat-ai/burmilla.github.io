@@ -1,0 +1,17 @@
+/* BurmillaOS custom branding
+   Primary color: teal-blue (distinct from Hextra's default blue)
+   Light mode: hsl(191, 100%, 40%)
+   Dark mode:  hsl(191, 100%, 55%)
+*/
+
+:root {
+  --primary-hue: 191deg;
+  --primary-saturation: 90%;
+  --primary-lightness: 38%;
+}
+
+.dark {
+  --primary-hue: 191deg;
+  --primary-saturation: 85%;
+  --primary-lightness: 52%;
+}
