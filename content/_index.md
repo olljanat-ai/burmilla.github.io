@@ -1,61 +1,94 @@
-# Overview of BurmillaOS
+---
+title: BurmillaOS
+layout: hextra-home
+---
 
-BurmillaOS is our reaction to the End of RancherOS, which was one of the smallest and easiest ways to run docker, as every process including services as `udev` or even `syslog` are running in their own containers. As the system is stripped of anything unnecessary to run docker, the resulting system is way smaller than most others of todays operating systems.
+<div class="hx:mt-6 hx:mb-6">
+{{< hextra/hero-headline >}}
+  The minimal OS&nbsp;<br class="hx:sm:block hx:hidden" />built for Docker
+{{< /hextra/hero-headline >}}
+</div>
 
-Speaking of security, the stripping of unneeded components also greatly reduces the amount of work going into security patching and other maintenance tasks. This is possible because, with Docker, users typically package all necessary libraries into their containers. As it is a total shame to see RancherOS vanish into thin air (read: end of life / maintenance), we decided to pick up where they left by still including the latest version of Docker to allow users to take the advantage of the latest Docker capabilities and fixes.
+<div class="hx:mb-12">
+{{< hextra/hero-subtitle >}}
+  Every process runs as a Docker container.&nbsp;<br class="hx:sm:block hx:hidden" />
+  Lightweight, fast, and built to replace RancherOS.
+{{< /hextra/hero-subtitle >}}
+</div>
 
-Unlike the big players, BurmillaOS boots very quick and is nearly instantly ready to fire up your container workloads.
+<div class="hx:mb-12">
+{{< hextra/hero-button text="Quick Start" link="docs/quick-start-guide" >}}
+{{< hextra/hero-button text="View Docs" link="docs" style="secondary" >}}
+</div>
 
-To read more about Docker, please head over to [Docker user guide](https://docs.docker.com/config/daemon/).
+{{< hextra/feature-grid >}}
+  {{< hextra/feature-card
+    title="Everything is a Container"
+    icon="cube"
+    subtitle="System services like ntpd, syslog, and the console all run as Docker containers — no init system, no systemd."
+  >}}
+  {{< hextra/feature-card
+    title="Minimal Footprint"
+    icon="chip"
+    subtitle="Stripped of everything not needed to run Docker. Starts in seconds and requires as little as 1 GB of RAM."
+  >}}
+  {{< hextra/feature-card
+    title="Dual Docker Design"
+    icon="adjustments"
+    subtitle="System Docker manages OS services; a separate user Docker handles your workloads — isolated and safe."
+  >}}
+  {{< hextra/feature-card
+    title="Cloud Ready"
+    icon="cloud"
+    subtitle="Runs on AWS, GCE, Azure, DigitalOcean, OpenStack, VMware ESXi, and more with cloud-config support."
+  >}}
+  {{< hextra/feature-card
+    title="Reduced Attack Surface"
+    icon="shield-check"
+    subtitle="Fewer components means fewer vulnerabilities. Libraries live inside containers, not on the host."
+  >}}
+  {{< hextra/feature-card
+    title="Latest Docker"
+    icon="arrow-circle-up"
+    subtitle="Always ships with the latest Docker release so you can take advantage of new capabilities and fixes."
+  >}}
+{{< /hextra/feature-grid >}}
+
+<div class="hx:mt-12">
 
 ## Hardware Requirements
 
-### Memory Requirements
+Platform   | RAM
+--------   | ---
+Baremetal  | 1 GB
+VirtualBox | 1 GB
+VMware     | 1 GB
+GCE        | 1 GB
+AWS        | 1 GB
 
-Platform   | RAM requirements
---------   | ------------------------
-Baremetal  | 1GB
-VirtualBox | 1GB
-VMWare     | 1GB
-GCE        | 1GB
-AWS        | 1GB
+## How It Works
 
-You can adjust memory requirements by custom building BurmillaOS, please refer to [reduce-memory-requirements](/docs/installation/custom-builds/custom-burmillaos-iso#reduce-memory-requirements)
+Everything in BurmillaOS is a Docker container. The system launches two Docker instances:
 
-## How BurmillaOS Works
+- **System Docker** — the first process on the system, runs all OS-level services (ntpd, syslog, console, udev) as containers. Replaces traditional init systems.
+- **User Docker** — a dedicated Docker daemon for your containers, isolated from System Docker so `docker rm -f $(docker ps -qa)` can never wipe the OS.
 
-Everything in BurmillaOS is a Docker container. We accomplish this by launching two instances of Docker. One is what we call **System Docker** and is the first process on the system. All other system services, like `ntpd`, `syslog`, and `console`, are running in Docker containers. System Docker replaces traditional init systems like `systemd` and is used to launch [additional system services](/docs/system-services/).
+![How it works](/images/howitworks.png)
 
-System Docker runs a special container called **Docker**, which is another Docker daemon responsible for managing all of the user’s containers. Any containers that you launch as a user from the console will run inside this Docker. This creates isolation from the System Docker containers and ensures that normal user commands don’t impact system services.
+## Supported Workloads
 
-We created this separation not only for the security benefits, but also to make sure that commands like `docker rm -f $(docker ps -qa)` don't delete the entire OS.
-
-![How it works](https://raw.githubusercontent.com/burmilla/burmilla.github.io/master/static/images/howitworks.png)
-
-## Supported Use Cases
-
-BurmillaOS is built around Docker and is best suited for the following workloads:
+BurmillaOS is best suited for:
 
 - Standalone Docker containers (`docker run` / `docker create`)
 - Multi-container applications (`docker-compose`)
 - Docker Swarm mode (`docker stack deploy` / `docker service`)
 
-The following use cases are **not** the focus of BurmillaOS and issues related to them are considered low priority:
-
-- Kubernetes / K3s (consider [k3OS](https://github.com/rancher/k3os) for those use cases)
-- Rancher 2.x (requires Kubernetes)
-
-Users are free to attempt these use cases, but they are not officially supported.
-
-## Running BurmillaOS
-
-To get started with BurmillaOS, head over to our [Quick Start Guide](/docs/quick-start-guide).
-
-## Latest Release
-
-Please check our [repository](https://github.com/burmilla/os/releases) for the latest [release](https://github.com/burmilla/os/releases).
+> Kubernetes and Rancher 2.x are not the focus of BurmillaOS. Consider [k3OS](https://github.com/rancher/k3os) for those use cases.
 
 ## Community
 
-* [GitHub Discussions](https://github.com/burmilla/os/discussions)
-* [Discord Server](https://discord.com/invite/AR6daurAAk)
+- [GitHub Discussions](https://github.com/burmilla/os/discussions)
+- [Discord Server](https://discord.com/invite/AR6daurAAk)
+- [Releases](https://github.com/burmilla/os/releases)
+
+</div>

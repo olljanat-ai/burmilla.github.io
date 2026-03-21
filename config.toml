@@ -1,24 +1,66 @@
 baseurl = "https://burmillaos.org/"
 languageCode = "en-us"
 title = "BurmillaOS"
+theme = "hextra"
 
-theme = "book"
 enableGitInfo = true
+enableRobotsTXT = true
+
 disableKinds = ['taxonomy', 'taxonomyTerm']
-pygmentsStyle = "monokai"
 
-[Params]
-  BookTheme = 'auto'
-  BookToC = true
-  favicon = "img/favicon.ico"
-  BookDateFormat = "January 2, 2006"
-  BookSearch = true
-  BookComments = false
-  BookRepo = 'https://github.com/burmilla/burmilla.github.io'
-  BookPortableLinks = true
-  BookServiceWorker = true
+[[menu.main]]
+  name = "Documentation"
+  pageRef = "/docs"
+  weight = 1
 
-[languages]
-  [languages.en]
-    languageName = "English"
-    weight = 1
+[[menu.main]]
+  name = "GitHub"
+  url = "https://github.com/burmilla/os"
+  weight = 2
+  [menu.main.params]
+    type = "link"
+
+[params]
+  description = "The minimal Docker-focused Linux OS"
+
+  [params.navbar]
+    displayTitle = true
+    displayLogo = false
+    width = "wide"
+
+  [params.theme]
+    default = "system"
+    displayToggle = true
+
+  [params.footer]
+    enable = true
+    displayCopyright = false
+    displayPoweredBy = true
+    width = "normal"
+
+  displayUpdatedDate = true
+  dateFormat = "January 2, 2006"
+
+  [params.search]
+    enable = true
+    type = "flexsearch"
+
+  [params.editURL]
+    enable = true
+    base = "https://github.com/burmilla/burmilla.github.io/edit/master/content"
+
+  [params.highlight]
+    [params.highlight.copy]
+      enable = true
+      display = "hover"
+
+  [params.page]
+    width = "normal"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = "monokai"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

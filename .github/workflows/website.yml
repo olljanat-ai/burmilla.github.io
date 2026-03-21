@@ -10,30 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
-      - name: Install extended version of Hugo
-        run: |
-          wget -O - -o /dev/null https://github.com/gohugoio/hugo/releases/download/v0.79.0/hugo_extended_0.79.0_Linux-64bit.deb | tee /tmp/hugo.deb
-          sudo dpkg -i /tmp/hugo.deb
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
 
-      - name: Generate Hugo pages
+      - name: Build
         run: |
-          git submodule init
-          git submodule update --recursive
           hugo --minify
           echo -n "burmillaos.org" > public/CNAME
-
-      - name: Add redirection to poll
-        run: |
-          mkdir public/poll
+          mkdir -p public/poll
           cp poll.html public/poll/index.html
 
       - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
         with:
-          target_branch: gh-pages
-          build_dir: public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
